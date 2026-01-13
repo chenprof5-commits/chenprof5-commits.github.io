@@ -1,25 +1,56 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
     color: #333;
 }
 
-header {
-    background-color: #1f2933;
+.hero {
+    background: linear-gradient(135deg, #1f2933, #3a506b);
     color: white;
-    padding: 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
-section {
-    background-color: white;
-    margin: 20px;
-    padding: 20px;
+.hero .btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f9a826;
+    color: #1f2933;
+    text-decoration: none;
+    font-weight: bold;
     border-radius: 5px;
+}
+
+section {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: auto;
 }
 
 h2 {
     color: #1f2933;
+    border-bottom: 2px solid #f9a826;
+    padding-bottom: 5px;
+}
+
+ul {
+    list-style: square;
+    padding-left: 20px;
+}
+
+.project {
+    background-color: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1f2933;
+    color: white;
 }
