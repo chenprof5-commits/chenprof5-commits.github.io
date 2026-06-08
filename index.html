@@ -1,68 +1,524 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Alpha Yaya Ouattara | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUATTARA Alpha Yaya — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --card: #14141e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5a0;
+    --accent2: #7c6aff;
+    --text: #f0f0f5;
+    --muted: #888898;
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    overflow-x: hidden;
+  }
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.85);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.2);
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .hero-name {
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-title { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 2rem; }
+  .hero-desc { font-size: 1rem; color: rgba(240,240,245,0.7); line-height: 1.8; max-width: 480px; }
+  .hero-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,160,0.25); }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-right { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: rgba(0,229,160,0.3); }
+  .stat-icon { width: 44px; height: 44px; background: rgba(0,229,160,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+  .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-tag { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 3rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text { font-size: 0.95rem; color: rgba(240,240,245,0.7); line-height: 1.9; }
+  .about-text p { margin-bottom: 1rem; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .skill-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent2); color: var(--text); }
+  .skill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(0,229,160,0.2); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-type { font-family: var(--mono); font-size: 0.62rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+  .project-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+  .project-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    background: rgba(124,106,255,0.1);
+    border: 1px solid rgba(124,106,255,0.2);
+    color: #a99bff;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.5rem; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .timeline-item { position: relative; padding-bottom: 3rem; padding-left: 2rem; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem; top: 0.4rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,160,0.5);
+  }
+  .tl-date { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .tl-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .tl-org { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 0.7rem; }
+  .tl-desc { font-size: 0.86rem; color: rgba(240,240,245,0.6); line-height: 1.7; }
+
+  /* SKILLS BARS */
+  .skills-section-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .skill-cat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .skill-cat-title { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  .skill-item { margin-bottom: 0.9rem; }
+  .skill-name { font-size: 0.82rem; color: var(--text); margin-bottom: 0.3rem; display: flex; justify-content: space-between; }
+  .skill-name span { color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+  .skill-bar { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .skill-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+  /* CONTACT */
+  .contact-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+  }
+  .contact-title { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+  .contact-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2.5rem; line-height: 1.8; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.7rem; }
+    #hero, section { padding: 6rem 1.5rem 3rem; }
+    .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-section-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-<header class="hero">
-    <h1>Alpha Yaya Ouattara</h1>
-    <p>Développeur | Réseaux & Sécurité | Étudiant en Informatique</p>
-    <a href="#contact" class="btn">Me contacter</a>
-</header>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="logo">// alpha.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#timeline">Parcours</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Disponible pour un stage de perfectionnement</div>
+      <h1 class="hero-name">OUATTARA<br><span>Alpha Yaya</span></h1>
+      <p class="hero-title">// Ingénieur Informatique · BAC+4 · EPO Ouagadougou</p>
+      <p class="hero-desc">
+        Passionné par le développement web/mobile et l'intelligence artificielle,
+        je construis des solutions concrètes à impact social, adaptées aux réalités burkinabè.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-icon">🚀</div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">PROJETS RÉALISÉS</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">STAGE PROFESSIONNEL · MTK SERVICES</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div>
+          <div class="stat-num">4+</div>
+          <div class="stat-label">TECHNOLOGIES MAÎTRISÉES</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section id="about">
-    <h2>À propos</h2>
-    <p>
-        Étudiant en informatique spécialisé en réseaux, télécommunications et cybersécurité.
-        Passionné par le développement de solutions concrètes et les systèmes informatiques modernes.
+  <div class="section-tag">// 01 · à propos</div>
+  <h2 class="section-title">Qui suis-je ?</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>Je m'appelle <strong>OUATTARA Alpha Yaya</strong>, étudiant en 4ème année de Génie Informatique et Télécommunications à l'École Polytechnique de Ouagadougou (EPO), option Informatique.</p>
+      <p>Mon parcours m'a amené à concevoir des applications web et mobiles avec un fort accent sur l'impact social local. Je crois que la technologie doit avant tout répondre aux réalités du terrain.</p>
+      <p>À côté du code, je m'intéresse à l'intelligence artificielle appliquée à l'éducation et à la gestion des données — des domaines où je souhaite me perfectionner davantage.</p>
+    </div>
+    <div>
+      <div class="skills-grid">
+        <div class="skill-pill"><span class="skill-dot"></span>Flutter / Dart</div>
+        <div class="skill-pill"><span class="skill-dot"></span>HTML / CSS / JS</div>
+        <div class="skill-pill"><span class="skill-dot"></span>PHP</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Firebase</div>
+        <div class="skill-pill"><span class="skill-dot"></span>VBA / Excel</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Python (notions)</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Git / GitHub</div>
+        <div class="skill-pill"><span class="skill-dot"></span>SQL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="padding-top:0">
+  <div class="section-tag">// 02 · projets</div>
+  <h2 class="section-title">Ce que j'ai construit</h2>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-type">Projet de Fin d'Année · 2025</div>
+      <h3 class="project-title">Plateforme TOEIC / TOEFL</h3>
+      <p class="project-desc">Plateforme web interactive de préparation aux certifications, avec exercices adaptatifs (QCM, texte à trou + audio), vidéos éducatives et progression automatique par niveau. Conçue pour les étudiants burkinabè.</p>
+      <div class="project-stack">
+        <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">JSON</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-type">Mini-Projet · 2024</div>
+      <h3 class="project-title">SmartBudget BF</h3>
+      <p class="project-desc">Application mobile multiplateforme (Android & Web) de gestion budgétaire personnelle. Suivi des dépenses par catégorie, alertes budgétaires, module de prêts et génération de rapports PDF.</p>
+      <div class="project-stack">
+        <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Firebase</span><span class="tag">Provider</span><span class="tag">PDF</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-type">Stage · MTK Services · 2025</div>
+      <h3 class="project-title">Automatisation Comptable VBA</h3>
+      <p class="project-desc">Macros VBA sous Excel pour automatiser la gestion des comptes d'une entreprise internationale présente dans 9 pays d'Afrique de l'Ouest. Réduction significative des erreurs et gain de temps.</p>
+      <div class="project-stack">
+        <span class="tag">VBA</span><span class="tag">Excel</span><span class="tag">Automatisation</span><span class="tag">Comptabilité</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline" style="padding-top:0">
+  <div class="section-tag">// 03 · parcours</div>
+  <h2 class="section-title">Mon histoire</h2>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="tl-date">2025 — EN COURS</div>
+      <div class="tl-title">4ème année — Génie Informatique & Télécommunications</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou · IGIT</div>
+      <div class="tl-desc">Cycle ingénieur de conception (BAC+4). Spécialisation en développement logiciel et systèmes d'information.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">SEPT — OCT 2025</div>
+      <div class="tl-title">Stage de découverte — Développeur & Automatisation</div>
+      <div class="tl-org">MTK Services Burkina · Ouagadougou</div>
+      <div class="tl-desc">Automatisation de la gestion comptable via macros VBA/Excel. Participation au suivi de chantiers hydrauliques. Gestion documentaire.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">JUIL 2025</div>
+      <div class="tl-title">Soutenance du Projet de Fin d'Année</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou</div>
+      <div class="tl-desc">Conception et développement d'une plateforme interactive de préparation au TOEIC/TOEFL. Soutenu devant jury le 28/07/2025.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2022 — 2024</div>
+      <div class="tl-title">Classes Préparatoires</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou</div>
+      <div class="tl-desc">Deux années de classes préparatoires avant intégration en cycle ingénieur Génie Informatique.</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="padding-top:0">
+  <div class="section-tag">// 04 · compétences</div>
+  <h2 class="section-title">Stack technique</h2>
+  <div class="skills-section-grid reveal">
+    <div class="skill-cat">
+      <div class="skill-cat-title">Frontend / Mobile</div>
+      <div class="skill-item">
+        <div class="skill-name">Flutter / Dart <span>85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">HTML / CSS <span>90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">JavaScript <span>75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Backend / Data</div>
+      <div class="skill-item">
+        <div class="skill-name">PHP <span>70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Firebase <span>75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">SQL <span>65%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Outils & Méthodes</div>
+      <div class="skill-item">
+        <div class="skill-name">VBA / Excel <span>80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Git / GitHub <span>70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Python (notions) <span>45%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="section-tag">// 05 · contact</div>
+  <h2 class="section-title">Travaillons ensemble</h2>
+  <div class="contact-box reveal">
+    <h3 class="contact-title">Disponible pour un stage de perfectionnement</h3>
+    <p class="contact-sub">
+      Étudiant en BAC+4 Génie Informatique à l'EPO, je recherche une opportunité<br>
+      pour approfondir mes compétences en développement et en intelligence artificielle.
     </p>
-</section>
-
-<section id="skills">
-    <h2>Compétences</h2>
-    <ul>
-        <li>HTML / CSS</li>
-        <li>Python (POO)</li>
-        <li>Git & GitHub</li>
-        <li>Réseaux GSM, LTE, Sécurité</li>
-        <li>Arduino & systèmes embarqués</li>
-        <li>Simulation réseau (ns-3, LTE-Sim)</li>
-    </ul>
-</section>
-
-<section id="projects">
-    <h2>Projets</h2>
-    <div class="project">
-        <h3>Plateforme TOEIC/TOEFL interactive</h3>
-        <p>Plateforme web pour entraînement TOEIC/TOEFL avec QCM, audio, progression automatique.</p>
+    <div class="contact-links">
+      <a href="mailto:ouattaraalphayaya@email.com" class="contact-link">✉ Email</a>
+      <a href="https://github.com/ouattaraalphayaya" class="contact-link" target="_blank">⌥ GitHub</a>
+      <a href="https://linkedin.com/in/ouattaraalphayaya" class="contact-link" target="_blank">◈ LinkedIn</a>
     </div>
-    <div class="project">
-        <h3>Système de régulation moteur DC (Arduino)</h3>
-        <p>Contrôle de vitesse par encodeur et PID partiel sur Arduino UNO.</p>
-    </div>
-    <div class="project">
-        <h3>Simulations LTE</h3>
-        <p>Études de handover et performance via ns-3 et LTE-Sim.</p>
-    </div>
-</section>
-
-<section id="education">
-    <h2>Formation</h2>
-    <p>Étudiant en Informatique – Réseaux & Télécommunications</p>
-</section>
-
-<section id="contact">
-    <h2>Contact</h2>
-    <p>Email : votre-email@example.com</p>
-    <p>GitHub : <a href="https://github.com/chenprof5-commits">github.com/chenprof5-commits</a></p>
+  </div>
 </section>
 
 <footer>
-    <p>© 2026 – Alpha Yaya Ouattara</p>
+  <p>Conçu & développé par OUATTARA Alpha Yaya · École Polytechnique de Ouagadougou · 2025</p>
 </footer>
 
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
