@@ -1,115 +1,555 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio d'Alpha Yaya Ouattara, élève ingénieur en génie logiciel à l'École Polytechnique de Ouagadougou.">
-    <title>Alpha Yaya Ouattara | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio d'Alpha Yaya Ouattara, élève ingénieur en génie logiciel à l'École Polytechnique de Ouagadougou.">
+<title>OUATTARA Alpha Yaya — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --card: #14141e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5a0;
+    --accent2: #7c6aff;
+    --text: #f0f0f5;
+    --muted: #888898;
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    overflow-x: hidden;
+  }
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.85);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.2);
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .hero-name {
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-title { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 2rem; }
+  .hero-desc { font-size: 1rem; color: rgba(240,240,245,0.7); line-height: 1.8; max-width: 480px; }
+  .hero-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,160,0.25); }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.8rem 1.8rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-right { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: rgba(0,229,160,0.3); }
+  .stat-icon { width: 44px; height: 44px; background: rgba(0,229,160,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+  .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-tag { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 3rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text { font-size: 0.95rem; color: rgba(240,240,245,0.7); line-height: 1.9; }
+  .about-text p { margin-bottom: 1rem; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .skill-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent2); color: var(--text); }
+  .skill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(0,229,160,0.2); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-type { font-family: var(--mono); font-size: 0.62rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+  .project-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+  .project-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    background: rgba(124,106,255,0.1);
+    border: 1px solid rgba(124,106,255,0.2);
+    color: #a99bff;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.5rem; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .timeline-item { position: relative; padding-bottom: 3rem; padding-left: 2rem; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem; top: 0.4rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,160,0.5);
+  }
+  .tl-date { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .tl-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .tl-org { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 0.7rem; }
+  .tl-desc { font-size: 0.86rem; color: rgba(240,240,245,0.6); line-height: 1.7; }
+
+  /* SKILLS BARS */
+  .skills-section-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .skill-cat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .skill-cat-title { font-family: var(--mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  .skill-item { margin-bottom: 0.9rem; }
+  .skill-name { font-size: 0.82rem; color: var(--text); margin-bottom: 0.3rem; display: flex; justify-content: space-between; }
+  .skill-name span { color: var(--muted); font-family: var(--mono); font-size: 0.7rem; }
+  .skill-bar { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .skill-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+  /* CONTACT */
+  .contact-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+  }
+  .contact-title { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+  .contact-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2.5rem; line-height: 1.8; }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.7rem; }
+    #hero, section { padding: 6rem 1.5rem 3rem; }
+    .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-section-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-<header class="hero">
-    <h1>Alpha Yaya Ouattara</h1>
-    <p>Élève ingénieur en génie logiciel | Développement web et mobile</p>
-    <a href="#contact" class="btn">Me contacter</a>
-</header>
+<div class="bg-grid"></div>
 
-<main>
-    <section id="about">
-        <h2>À propos</h2>
-        <p>
-            Étudiant en troisième année d'ingéniorat en génie informatique, spécialité génie logiciel,
-            à l'École Polytechnique de Ouagadougou. Passionné par le développement logiciel et
-            l'intelligence artificielle, je conçois des solutions web et mobiles pour répondre à des besoins concrets.
-        </p>
-    </section>
+<nav>
+  <div class="logo">// alpha.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#timeline">Parcours</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-    <section id="skills">
-        <h2>Compétences</h2>
-        <ul>
-            <li>Langages : Python, PHP, Dart, C, Java, JavaScript et C++</li>
-            <li>Développement web : HTML, CSS, Angular, Next.js et NestJS</li>
-            <li>Développement mobile : Flutter et Dart</li>
-            <li>Backend et outils : Spring Boot, Firebase, PostgreSQL et VBA/Excel</li>
-        </ul>
-    </section>
-
-    <section id="projects">
-        <h2>Projets</h2>
-        <div class="project">
-            <h3>PrimeFlix TV</h3>
-            <p>
-                Application de streaming vidéo pour Android TV et smartphones Android. Interface adaptée aux
-                différents écrans, abonnements mensuels et annuels, activation par codes et essai gratuit.
-                Backend hébergé sur Vercel, base PostgreSQL et interface d'administration.
-                Commercialisation des abonnements et suivi des clients.
-            </p>
+<div id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Élève ingénieur en génie logiciel</div>
+      <h1 class="hero-name">OUATTARA<br><span>Alpha Yaya</span></h1>
+      <p class="hero-title">// 3e année d'ingéniorat · Génie logiciel · EPO Ouagadougou</p>
+      <p class="hero-desc">
+        Passionné par le développement logiciel et l'intelligence artificielle,
+        je conçois des solutions web et mobiles pour répondre à des besoins concrets.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-icon">🚀</div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">PROJETS RÉALISÉS</div>
         </div>
-        <div class="project">
-            <h3>SmartBudget BF</h3>
-            <p>
-                Application mobile de gestion budgétaire co-développée pour les étudiants burkinabè avec
-                Flutter, Dart et Firebase. Suivi des transactions, alertes budgétaires personnalisables
-                et module de prêts.
-            </p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">EXPÉRIENCES · FASO BOOLÉ ET MTK SERVICES</div>
         </div>
-        <div class="project">
-            <h3>Plateforme interactive TOEIC/TOEFL</h3>
-            <p>
-                Plateforme web réalisée avec HTML, CSS, JavaScript et PHP : exercices interactifs,
-                fichiers audio, progression par niveau, bibliothèque de ressources et évaluations.
-            </p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">TECHNOLOGIES MAÎTRISÉES</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <section id="experience">
-        <h2>Expériences professionnelles</h2>
-        <div class="project">
-            <h3>Faso Boolé (ex-SND) · Juillet à septembre 2026</h3>
-            <p>
-                Participation à la conception de quatre solutions numériques : gestion des appelés du service
-                patriotique, insertion des appelés, gestion des réservistes et collaboration entre les directions.
-            </p>
-        </div>
-        <div class="project">
-            <h3>MTK Services, Ouagadougou · Septembre à octobre 2025</h3>
-            <p>
-                Stage de découverte : automatisation de la gestion des comptes avec des macros VBA sous Excel,
-                suivi de chantiers, gestion documentaire et gestion des équipements informatiques.
-            </p>
-        </div>
-    </section>
+<section id="about">
+  <div class="section-tag">// 01 · à propos</div>
+  <h2 class="section-title">Qui suis-je ?</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>Je m'appelle <strong>OUATTARA Alpha Yaya</strong>, étudiant en troisième année d'ingéniorat en génie informatique, spécialité génie logiciel, à l'École Polytechnique de Ouagadougou (EPO).</p>
+      <p>J'ai conçu des applications web et mobiles, dont une plateforme de préparation au TOEIC/TOEFL, SmartBudget BF et PrimeFlix TV. Mes expériences à Faso Boolé et MTK Services m'ont permis de travailler sur des solutions numériques concrètes.</p>
+      <p>Je m'intéresse aussi à l'intelligence artificielle et aux projets à impact social.</p>
+    </div>
+    <div>
+      <div class="skills-grid">
+        <div class="skill-pill"><span class="skill-dot"></span>Flutter / Dart</div>
+        <div class="skill-pill"><span class="skill-dot"></span>HTML / CSS / JS</div>
+        <div class="skill-pill"><span class="skill-dot"></span>PHP</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Firebase</div>
+        <div class="skill-pill"><span class="skill-dot"></span>VBA / Excel</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Python</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Java / Spring Boot</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Next.js / NestJS</div>
+        <div class="skill-pill"><span class="skill-dot"></span>Angular</div>
+        <div class="skill-pill"><span class="skill-dot"></span>C / C++</div>
+        <div class="skill-pill"><span class="skill-dot"></span>PostgreSQL</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="education">
-        <h2>Formation</h2>
-        <p>2026 à présent : troisième année d'ingéniorat en génie logiciel, École Polytechnique de Ouagadougou (EPO).</p>
-        <p>2024–2026 : première et deuxième années d'ingéniorat, EPO.</p>
-        <p>2022–2024 : classes préparatoires, EPO.</p>
-    </section>
+<section id="projects" style="padding-top:0">
+  <div class="section-tag">// 02 · projets</div>
+  <h2 class="section-title">Ce que j'ai construit</h2>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-type">Projet de fin d'année · 2024–2025</div>
+      <h3 class="project-title">Plateforme TOEIC / TOEFL</h3>
+      <p class="project-desc">Plateforme web de préparation au TOEIC/TOEFL : QCM, textes à trous avec audio, ressources pédagogiques, évaluations et progression automatique par niveau.</p>
+      <div class="project-stack">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-type">Application mobile · Projet personnel</div>
+      <h3 class="project-title">SmartBudget BF</h3>
+      <p class="project-desc">Application mobile de gestion budgétaire co-développée pour les étudiants burkinabè : suivi des transactions, alertes personnalisables et module de prêts.</p>
+      <div class="project-stack">
+        <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Firebase</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-type">Stage · MTK Services · 2025</div>
+      <h3 class="project-title">Automatisation Comptable VBA</h3>
+      <p class="project-desc">Macros VBA sous Excel pour automatiser la gestion des comptes de MTK Services Burkina, entreprise présente dans neuf pays d'Afrique de l'Ouest.</p>
+      <div class="project-stack">
+        <span class="tag">VBA</span><span class="tag">Excel</span><span class="tag">Automatisation</span><span class="tag">Comptabilité</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-type">Projet personnel · Android</div>
+      <h3 class="project-title">PrimeFlix TV</h3>
+      <p class="project-desc">Application de streaming vidéo pour Android TV et smartphones Android. Interface adaptée aux écrans, abonnements mensuels et annuels, activation par codes, essai gratuit et interface d'administration. Commercialisation des abonnements et suivi des clients.</p>
+      <div class="project-stack">
+        <span class="tag">Android</span><span class="tag">Vercel</span><span class="tag">PostgreSQL</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="languages">
-        <h2>Langues</h2>
-        <ul>
-            <li>Français : langue maternelle</li>
-            <li>Anglais et mooré : bilingue</li>
-            <li>Dioula : niveau intermédiaire</li>
-            <li>Mandarin et allemand : débutant</li>
-        </ul>
-    </section>
+<section id="timeline" style="padding-top:0">
+  <div class="section-tag">// 03 · parcours</div>
+  <h2 class="section-title">Mon histoire</h2>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="tl-date">2026 — À PRÉSENT</div>
+      <div class="tl-title">Troisième année d'ingéniorat — Génie logiciel</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou · EPO</div>
+      <div class="tl-desc">Formation en génie informatique, spécialité génie logiciel.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">JUIL — SEPT 2026</div>
+      <div class="tl-title">Conception de solutions numériques</div>
+      <div class="tl-org">Faso Boolé (ex-SND) · Ouagadougou</div>
+      <div class="tl-desc">Participation à quatre solutions pour la gestion des appelés du service patriotique, leur insertion, la gestion des réservistes et la collaboration entre les directions.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">SEPT — OCT 2025</div>
+      <div class="tl-title">Stage de découverte — Équipements informatiques</div>
+      <div class="tl-org">MTK Services Burkina · Ouagadougou</div>
+      <div class="tl-desc">Automatisation de la gestion des comptes avec VBA/Excel, suivi de chantiers, gestion documentaire et gestion des équipements informatiques.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2024 — 2026</div>
+      <div class="tl-title">Première et deuxième années d'ingéniorat</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou</div>
+      <div class="tl-desc">Formation en génie informatique et réalisation de projets web et mobiles.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2022 — 2024</div>
+      <div class="tl-title">Classes Préparatoires</div>
+      <div class="tl-org">École Polytechnique de Ouagadougou</div>
+      <div class="tl-desc">Deux années de classes préparatoires avant intégration en cycle ingénieur Génie Informatique.</div>
+    </div>
+  </div>
+</section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email : <a href="mailto:alphayayaouattara0@gmail.com">alphayayaouattara0@gmail.com</a></p>
-        <p>Téléphone : <a href="tel:+22674431164">+226 74 43 11 64</a></p>
-        <p>Localisation : Ouagadougou, Karpala</p>
-        <p>GitHub : <a href="https://github.com/chenprof5-commits">github.com/chenprof5-commits</a></p>
-    </section>
-</main>
+<section id="skills" style="padding-top:0">
+  <div class="section-tag">// 04 · compétences</div>
+  <h2 class="section-title">Stack technique</h2>
+  <div class="skills-section-grid reveal">
+    <div class="skill-cat">
+      <div class="skill-cat-title">Frontend / Mobile</div>
+      <div class="skill-item">
+        <div class="skill-name">Flutter / Dart <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">HTML / CSS <span>5/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">JavaScript <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Backend / Frameworks</div>
+      <div class="skill-item">
+        <div class="skill-name">PHP <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Spring Boot <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">NestJS <span>3/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Langages</div>
+      <div class="skill-item">
+        <div class="skill-name">Python <span>5/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">Java <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name">C++ <span>4/5</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="languages" style="padding-top:0">
+  <div class="section-tag">// 05 · langues</div>
+  <h2 class="section-title">Langues</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-pill"><span class="skill-dot"></span>Français · langue maternelle</div>
+    <div class="skill-pill"><span class="skill-dot"></span>Anglais · bilingue</div>
+    <div class="skill-pill"><span class="skill-dot"></span>Mooré · bilingue</div>
+    <div class="skill-pill"><span class="skill-dot"></span>Dioula · intermédiaire</div>
+    <div class="skill-pill"><span class="skill-dot"></span>Mandarin · débutant</div>
+    <div class="skill-pill"><span class="skill-dot"></span>Allemand · débutant</div>
+  </div>
+</section>
+
+<section id="contact" style="padding-top:0">
+  <div class="section-tag">// 06 · contact</div>
+  <h2 class="section-title">Travaillons ensemble</h2>
+  <div class="contact-box reveal">
+    <h3 class="contact-title">Me contacter</h3>
+    <p class="contact-sub">
+      Élève ingénieur en génie logiciel à l'EPO, basé à Ouagadougou (Karpala).<br>
+      Échangeons autour du développement logiciel et de projets concrets.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:alphayayaouattara0@gmail.com" class="contact-link">✉ alphayayaouattara0@gmail.com</a>
+      <a href="tel:+22674431164" class="contact-link">☎ +226 74 43 11 64</a>
+      <a href="https://github.com/chenprof5-commits" class="contact-link" target="_blank" rel="noopener noreferrer">⌥ GitHub</a>
+    </div>
+  </div>
+</section>
 
 <footer>
-    <p>© 2026 – Alpha Yaya Ouattara</p>
+  <p>Conçu &amp; développé par OUATTARA Alpha Yaya · École Polytechnique de Ouagadougou · 2026</p>
 </footer>
 
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
