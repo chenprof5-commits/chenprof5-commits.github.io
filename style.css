@@ -148,6 +148,11 @@ h2 em { color: var(--mint); font-style: normal; }
 .card-contribution strong { color: var(--mint); }
 .secondary-card .tech-list { margin-top: auto; margin-bottom: 0; }
 .project-note { margin: 1.2rem 0 0; color: var(--muted); font-size: .82rem; }
+.faso-heading { margin-top: clamp(4rem, 7vw, 6rem); max-width: 48rem; }
+.faso-heading h3 { margin: 0; font: 700 clamp(2rem, 4vw, 3.5rem)/1.1 var(--font-display); letter-spacing: -.05em; }
+.faso-heading > p:last-child { margin: 1rem 0 1.8rem; color: var(--muted); }
+.faso-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.faso-grid .secondary-card { min-height: 19rem; }
 
 .experience-section { border-block: 1px solid var(--line); background: #0b1b24; }
 .experience-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(3rem, 8vw, 9rem); }
